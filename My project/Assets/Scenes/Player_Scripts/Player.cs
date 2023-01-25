@@ -17,17 +17,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        rigid.AddForce(Vector2.right*h, ForceMode2D.Impulse);
-        if (rigid.velocity.x > maxSpeed){
-            rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
-        }
-        else if (rigid.velocity.x < maxSpeed*(-1)){
-            rigid.velocity = new Vector2(maxSpeed*(-1), rigid.velocity.y);
-        }
-        if (Input.GetButton("Jump") && !isJumping){
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            isJumping = true;
+        if(GameManager.canPlayerMove){
+            float h = Input.GetAxisRaw("Horizontal");
+            rigid.AddForce(Vector2.right*h, ForceMode2D.Impulse);
+            if (rigid.velocity.x > maxSpeed){
+                rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+            }
+            else if (rigid.velocity.x < maxSpeed*(-1)){
+                rigid.velocity = new Vector2(maxSpeed*(-1), rigid.velocity.y);
+            }
+            if (Input.GetButton("Jump") && !isJumping){
+                rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                isJumping = true;
+            }
         }
     }
 
