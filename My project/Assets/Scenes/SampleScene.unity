@@ -364,10 +364,10 @@ GameObject:
   m_Component:
   - component: {fileID: 438330725}
   - component: {fileID: 438330729}
+  - component: {fileID: 438330730}
   - component: {fileID: 438330728}
   - component: {fileID: 438330727}
   - component: {fileID: 438330726}
-  - component: {fileID: 438330730}
   m_Layer: 7
   m_Name: Door
   m_TagString: Untagged
@@ -406,7 +406,7 @@ MonoBehaviour:
   Sprites:
   - {fileID: 21300000, guid: 13209ce3d811f734ca0be45162b953d0, type: 3}
   - {fileID: 21300000, guid: c47eeacf410ea9b4d8611aafe6ecef91, type: 3}
-  openDoor: 0
+  onOpen: 0
 --- !u!114 &438330727
 MonoBehaviour:
   m_ObjectHideFlags: 0

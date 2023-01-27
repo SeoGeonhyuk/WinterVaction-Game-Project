@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class ShowGuideSign : MonoBehaviour
 {
-    public float Distance;                // 래이캐스트 인식 범위
-    public float DelayTime;               // 안내 스프라이트를 숨기는 딜레이
-    public SpriteRenderer signRenderer;  // 스프라이트 렌더러 선언
-    private bool onDelay;               // 스프라이트숨기는 딜레이 활성화/비활성화
+    public float Distance;                      // 래이캐스트 인식 범위
+    public float DelayTime;                     // 안내 스프라이트를 숨기는 딜레이
+    public SpriteRenderer signRenderer;         // 스프라이트 렌더러 선언
+    private ChangeDoorSprite changeDoorSprite;   //체인지 도어 스프라이트 선언
+    private bool onDelay;                       // 스프라이트숨기는 딜레이 활성화/비활성화
 
     void Start()
     {
+        changeDoorSprite = GetComponent<ChangeDoorSprite>(); // 게임오브젝트의 체인지 도어 스프라이트 컴포넌트 가져오기
+
         signRenderer.enabled = false;
     }
 
@@ -24,8 +27,15 @@ public class ShowGuideSign : MonoBehaviour
 
         if (hit.collider != null || hit2.collider != null)
         {
-            onDelay = true;
-            signRenderer.enabled = true;
+            if (changeDoorSprite.onOpen != true)
+            {
+                onDelay = true;
+                signRenderer.enabled = true;
+            }
+            else
+            {
+                HideSprite();
+            }
         }
         else
         {
