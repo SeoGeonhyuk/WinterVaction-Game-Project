@@ -11,6 +11,7 @@ public class SceneTrigger : MonoBehaviour
     public SpriteRenderer Blinder_Bottom;       // 블라인더 스프라이트(아래) 가져오기
     private PlayableDirector playableDirector;  // PlayableDirector 스크립트
     private bool canShowScene;                  // 컷씬 시청을 1회 제한으로 지정하는 변수
+    private bool isJumping;
 
     void Start()
     {
@@ -43,8 +44,6 @@ public class SceneTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player" && canShowScene == true)
         {
             canShowScene = false;
-            Blinder_Top.enabled = true;
-            Blinder_Bottom.enabled = true;
             playableDirector.Play();        // 컷씬 활성화
         }
     }
