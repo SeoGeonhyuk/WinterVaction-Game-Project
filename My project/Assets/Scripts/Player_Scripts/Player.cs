@@ -9,28 +9,41 @@ public class Player : MonoBehaviour
     public float jumpPower;//점프 값 설정
     private bool isJumping = false; //점프 한 번만 되게 설정
     Rigidbody2D rigid;
+
+    //애니메이터 파라메터
+    public Animator animator;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate() // 플레이어 움직임은 Update 문이 아니라 FixedUpdate 문에 써야대용
     {
         if(GameManager.canPlayerMove){
             float h = Input.GetAxisRaw("Horizontal");
             rigid.AddForce(Vector2.right*h, ForceMode2D.Impulse);
             if (rigid.velocity.x > maxSpeed){
                 rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+                animator.SetBool("IsWalk",true);
+
             }
             else if (rigid.velocity.x < maxSpeed*(-1)){
                 rigid.velocity = new Vector2(maxSpeed*(-1), rigid.velocity.y);
+                animator.SetBool("IsWalk", true);
+
             }
             if (Input.GetButton("Jump") && !isJumping){
                 rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
                 isJumping = true;
             }
+            
         }
+
+        
     }
 
     void OnCollisionEnter2D(Collision2D col) {
