@@ -28,11 +28,13 @@ public class Player : MonoBehaviour
             rigid.AddForce(Vector2.right*h, ForceMode2D.Impulse);
             if (rigid.velocity.x > maxSpeed){
                 rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+                transform.localScale = new Vector2(1f, 1f);
                 animator.SetBool("IsWalk",true);
 
             }
             else if (rigid.velocity.x < maxSpeed*(-1)){
                 rigid.velocity = new Vector2(maxSpeed*(-1), rigid.velocity.y);
+                transform.localScale = new Vector2(-1f, 1f);
                 animator.SetBool("IsWalk", false);
 
             }
