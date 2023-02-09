@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background_obj
+    uniqueID: 3354081039
+    locked: 0
   - name: Platform
     uniqueID: 1267612401
     locked: 0
@@ -53,4 +56,7 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 1476510145
+    locked: 0
+  - name: Hide_Obj
+    uniqueID: 735828435
     locked: 0
