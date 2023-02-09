@@ -24,18 +24,19 @@ public class Player : MonoBehaviour
     void FixedUpdate() // 플레이어 움직임은 Update 문이 아니라 FixedUpdate 문에 써야대용 아니면 캐릭터가 움직일 때 덜덜 떨리는 현상이 생기더라고요
     {
         if(GameManager.canPlayerMove){
+            maxSpeend = 4;
             float h = Input.GetAxisRaw("Horizontal");
             rigid.AddForce(Vector2.right*h, ForceMode2D.Impulse);
             if (rigid.velocity.x > maxSpeed){
                 rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
-                transform.localScale = new Vector2(1f, 1f);
+                transform.localScale = new Vector2(0.5f, 0.5f);
                 animator.SetBool("IsWalk",true);
 
             }
             else if (rigid.velocity.x < maxSpeed*(-1)){
                 rigid.velocity = new Vector2(maxSpeed*(-1), rigid.velocity.y);
-                transform.localScale = new Vector2(-1f, 1f);
-                animator.SetBool("IsWalk", false);
+                transform.localScale = new Vector2(-0.5f, 0.5f);
+                animator.SetBool("IsWalk", true);
 
             }
             if (Input.GetButton("Jump") && !isJumping){
@@ -44,7 +45,11 @@ public class Player : MonoBehaviour
             }
             
         }
-
+        else{
+            transform.localScale = new Vector2(0.5f, 0.5f);
+            maxSpeed = 0;
+            animator.SetBool("IsWalk", false);
+        }
         
     }
 
