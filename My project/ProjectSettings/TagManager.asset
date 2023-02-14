@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Door
+  - Box
   layers:
   - Default
   - TransparentFX
@@ -59,4 +61,7 @@ TagManager:
     locked: 0
   - name: Hide_Obj
     uniqueID: 735828435
+    locked: 0
+  - name: Blind
+    uniqueID: 1270378361
     locked: 0

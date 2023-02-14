@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveBox : MonoBehaviour
 {
+    public bool onSpin = false;
+
     // Start is called before the first frame update
     void Start()
     {

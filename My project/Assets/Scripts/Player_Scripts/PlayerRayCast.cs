@@ -46,7 +46,7 @@ public class PlayerRayCast : MonoBehaviour
 
             if (target.tag == "Box")
             {
-                MoveBox();
+                TransferBox();
             }
         }
         /*if (hit2.collider != null)
@@ -72,7 +72,7 @@ public class PlayerRayCast : MonoBehaviour
 
         if (Input.GetKeyDown("e") == true)
             {
-                MoveBox.onSpin = true;
+                //MoveBox.onSpin = true;
             }
         
         //if (Input)
