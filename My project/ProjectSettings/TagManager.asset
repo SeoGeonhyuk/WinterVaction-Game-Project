@@ -39,6 +39,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3919170049
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background_obj
+    uniqueID: 3354081039
+    locked: 0
+  - name: Platform
+    uniqueID: 1267612401
+    locked: 0
+  - name: Items
+    uniqueID: 377004495
+    locked: 0
+  - name: Character
+    uniqueID: 1476510145
+    locked: 0
+  - name: Hide_Obj
+    uniqueID: 735828435
     locked: 0
