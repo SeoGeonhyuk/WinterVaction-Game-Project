@@ -26,7 +26,7 @@ public class PlayerRayCast : MonoBehaviour
 
         //'문' 인식
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y), dirVec, Distance, LayerMask.GetMask("Door"));
+        RaycastHit2D hit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y), dirVec, Distance, LayerMask.GetMask("Object"));
 
         //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(1,0,0), Distance, LayerMask.GetMask("Door"));
         //RaycastHit2D hit2 = Physics2D.Raycast(transform.position, new Vector3(-1,0,0), Distance, LayerMask.GetMask("Door"));
@@ -39,7 +39,15 @@ public class PlayerRayCast : MonoBehaviour
         if (hit.collider != null)
         {
             target = hit.collider.gameObject;
-            OpenDoor();
+            if (target.tag == "Door")
+            {
+                OpenDoor();
+            }
+
+            if (target.tag == "Box")
+            {
+                MoveBox();
+            }
         }
         /*if (hit2.collider != null)
         {
@@ -56,6 +64,18 @@ public class PlayerRayCast : MonoBehaviour
                 ChangeDoorSprite changeDoorSprite = target.GetComponent<ChangeDoorSprite>();
                 changeDoorSprite.onOpen = true;
             }
+    }
+
+    void TransferBox()
+    {
+        MoveBox movebox = target.GetComponent<MoveBox>();
+
+        if (Input.GetKeyDown("e") == true)
+            {
+                MoveBox.onSpin = true;
+            }
+        
+        //if (Input)
     }
 }
 
