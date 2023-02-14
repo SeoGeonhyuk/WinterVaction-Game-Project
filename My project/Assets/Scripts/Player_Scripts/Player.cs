@@ -161,9 +161,8 @@ public class Player : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("LadderTop"))
+        if (col.gameObject.CompareTag("LadderTop") && Input.GetAxisRaw("Vertical") > 0)
         {
-
             rigid.gravityScale = 3;
             isLaddering = false;
             isLadderingcanMove = true;
