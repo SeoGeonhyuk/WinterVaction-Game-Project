@@ -80,11 +80,12 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(isLaddering){
+        if (isLaddering)
+        {
             float h = Input.GetAxisRaw("Vertical");
-            if(h > 0)
+            if (h > 0)
                 this.transform.Translate(0, 2 * Time.deltaTime, 0);
-            else if(h < 0)
+            else if (h < 0)
                 this.transform.Translate(0, -2 * Time.deltaTime, 0);
             else
                 this.transform.Translate(0, 0, 0);
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
                 rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
                 rigid.gravityScale = 3;
                 isJumping = true;
-                GameManager.canPlayerMove = true;
+                isLadderingcanMove = true;
                 isLaddering = false;
             }
         }
@@ -122,11 +123,12 @@ public class Player : MonoBehaviour
     {
 
     }
-    
-    void OnTriggerEnter2D(Collider2D col) 
+
+    void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Ladder") && Input.GetAxisRaw("Vertical") > 0)
         {
+            isJumping = false;
             rigid.gravityScale = 0;
             rigid.velocity = new Vector2(0, 0);
             Debug.Log("사다리");
@@ -161,9 +163,8 @@ public class Player : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("LadderTop"))
+        if (col.gameObject.CompareTag("LadderTop") && Input.GetAxisRaw("Vertical") > 0)
         {
-
             rigid.gravityScale = 3;
             isLaddering = false;
             isLadderingcanMove = true;
