@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public float maxSpeed;//이동속도 값 설정
     public float jumpPower;//점프 값 설정
+    public bool canJump = true;
     public float ladderSpeed;//사다리 속도 값 설정
     private bool isJumping = false; //점프 한 번만 되게 설정
     private bool isLaddering = false;
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
                 animator.SetBool("IsWalk", false);
             }
 
-            if (Input.GetButton("Jump") && !isJumping)
+            if (Input.GetButton("Jump") && !isJumping && canJump == true)
             {
                 rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
                 isJumping = true;
