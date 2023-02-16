@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
 
         if (isLaddering)
         {
+            Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, true);
             float h = Input.GetAxisRaw("Vertical");
             if (h > 0)
                 this.transform.Translate(0, 2 * Time.deltaTime, 0);
@@ -91,7 +92,6 @@ public class Player : MonoBehaviour
             else
                 this.transform.Translate(0, 0, 0);
             Debug.Log("사다리2");
-            Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, true);
             if (Input.GetButton("Jump") && !isJumping)
             {
                 Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, false);
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Ladder") && Input.GetAxisRaw("Vertical") > 0)
+        if ((col.gameObject.CompareTag("Ladder") || col.gameObject.CompareTag("LadderTop")) && Input.GetAxisRaw("Vertical") > 0)
         {
             isJumping = false;
             rigid.gravityScale = 0;

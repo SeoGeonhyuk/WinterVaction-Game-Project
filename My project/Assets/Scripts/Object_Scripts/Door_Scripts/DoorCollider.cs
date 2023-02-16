@@ -9,13 +9,14 @@ public class DoorCollider : MonoBehaviour
 
     void Start()
     { 
-        Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), door.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), door.GetComponent<BoxCollider2D>());
+        Physics2D.IgnoreLayerCollision(7,6);
     }
 
     private void Update()
     {
         // 플레이어가 문에 막히는 것 방지
-        Physics2D.IgnoreLayerCollision(7,6);
+        
         //Physics2D.IgnoreCollision(7,6);
     }
 }
