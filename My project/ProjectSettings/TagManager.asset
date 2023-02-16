@@ -7,18 +7,18 @@ TagManager:
   - Ground
   - Door
   - Box
+  - Ladder
+  - LadderTop
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ladder
   - Water
   - UI
   - Player
   - Object
-  - Trigger
-  - 
-  - 
+  - Ground
   - 
   - 
   - 
