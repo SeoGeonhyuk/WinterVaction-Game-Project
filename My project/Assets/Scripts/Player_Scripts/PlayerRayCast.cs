@@ -52,7 +52,6 @@ public class PlayerRayCast : MonoBehaviour
         if (hit.collider != null)
         {
             target = hit.collider.gameObject;
-            if (target.tag == "Door")
             if (target.tag == "Door" && onPushMode == false)
             {
                 // 문 열기 함수
@@ -65,14 +64,8 @@ public class PlayerRayCast : MonoBehaviour
                 TransferBox();
             }
         }
-        /*if (hit2.collider != null)
-        {
-            target = hit2.collider.gameObject;
-            OpenDoor();
-        }*/
     }
     
-    //문 열기
     // 문 열기
     void OpenDoor()
     {
@@ -86,7 +79,6 @@ public class PlayerRayCast : MonoBehaviour
     // 박스 변형(회전, 이동)
     void TransferBox()
     {
-        MoveBox movebox = target.GetComponent<MoveBox>();
         MoveBox moveBox = target.GetComponent<MoveBox>();
         if (onPushMode == false)
         {
@@ -98,11 +90,11 @@ public class PlayerRayCast : MonoBehaviour
                 if (keyDownTime >= 1 && canTransferBox == true)
                 {
                     // 밀기 모드로 전환
-                    //playerComponent.jumpPower = 0f;
-                    moveBox.dir = dirValue;
                     playerComponent.canJump = false;
                     canTransferBox = false;
                     onPushMode = true;
+                    moveBox.adjustment = true;
+                    moveBox.onMove = true;      // MoveBox 스크립트에서 위치 조정
                     keyDownTime = 0f;
                 }
             }
@@ -113,40 +105,28 @@ public class PlayerRayCast : MonoBehaviour
                     // 박스 회전
                     canTransferBox = false;
                     moveBox.onSpin = true;
-                    Debug.Log("ONNNNNNNNNNNNNNNNNNNNNNNNNN");
+                    Debug.Log("Spin!!");
                 }
 
-        if (Input.GetKeyDown("e") == true)
                 keyDownTime = 0f;
             }
         }
         else
         {
             // 밀기 모드
-            moveBox.onMove = true;
-
             if (Input.GetKeyDown("e") == true)
             {
-                //MoveBox.onSpin = true;
                 // 밀기 모드 해제 확인 [버그 방지용]
                 canOffPushMode = true;
             }
-        
-        //if (Input)
             if (Input.GetKeyUp("e") == true && canOffPushMode == true)
             {
                 // 밀기 모드 해제 확인
-                //playerComponent.jumpPower = originalJumpPower;
                 playerComponent.canJump = true;
                 moveBox.onMove = false;
                 onPushMode = false;
                 canOffPushMode = false;
-                //Debug.Log(originalJumpPower);
-                //Debug.Log(playerComponent.jumpPower);
-                Debug.Log("OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
             }
-
-            // 바라보는 방향 고정
         }
     }
 }
