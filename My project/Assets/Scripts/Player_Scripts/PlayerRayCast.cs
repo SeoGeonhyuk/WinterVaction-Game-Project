@@ -13,67 +13,82 @@ public class PlayerRayCast : MonoBehaviour
     private bool canOffPushMode = false;
     private float dirValue;
     private Player playerComponent;
+    private SpriteRenderer guideSignSpriteRenderer;
+    private GameObject guideSign;
 
     Vector3 dirVec;
 
     void Start()
     {
         playerComponent = GetComponent<Player>();
-        //originalJumpPower = playerComponent.jumpPower;
-        //Debug.Log(originalJumpPower);
+        guideSign = transform.GetChild(0).gameObject;
     }
 
     void Update()
     {
+        // 'guideSign'의 'SpriteRenderer' 최신화시키기
+        guideSignSpriteRenderer = guideSign.GetComponent<SpriteRenderer>();
+
         // 플레이어 방향 체크 (레이케스트 용)
-        
         if (onPushMode == false)
         {
             dirValue = Input.GetAxisRaw("Horizontal");
             if (dirValue == -1)
+            {
                 dirVec = new Vector3(Vector3.left.x, Vector3.left.y);
+                guideSignSpriteRenderer.flipX = true;
+            }
             else if (dirValue == 1)
+            {
                 dirVec = new Vector3(Vector3.right.x, Vector3.right.y);
+                guideSignSpriteRenderer.flipX = false;
+            }
         }
 
-
         //'문' 인식
-
         RaycastHit2D hit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y), dirVec, Distance, LayerMask.GetMask("Object"));
-
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(1,0,0), Distance, LayerMask.GetMask("Door"));
-        //RaycastHit2D hit2 = Physics2D.Raycast(transform.position, new Vector3(-1,0,0), Distance, LayerMask.GetMask("Door"));
 
         // 레이케스트 디버그
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y), dirVec, Color.blue, 0.1f);
-
-     
 
         if (hit.collider != null)
         {
             target = hit.collider.gameObject;
             if (target.tag == "Door" && onPushMode == false)
             {
+                // 'guideSign' 보이게 하기
+                guideSign = transform.GetChild(0).gameObject;
+                guideSignSpriteRenderer.enabled = true;
+
                 // 문 열기 함수
                 OpenDoor();
             }
 
             if (target.tag == "Box")
             {
+                // 'guideSign' 보이게 하기
+                guideSign = transform.GetChild(0).gameObject;
+                guideSignSpriteRenderer.enabled = true;
+
                 // 박스 변형 함수
                 TransferBox();
             }
         }
+        else
+        {
+            // 'guideSign' 가리기
+            guideSignSpriteRenderer.enabled = false;
+        }
     }
-    
+
     // 문 열기
     void OpenDoor()
-    {
+    {   
         if (Input.GetKeyDown("e") == true)
-            {
-                ChangeDoorSprite changeDoorSprite = target.GetComponent<ChangeDoorSprite>();
-                changeDoorSprite.onOpen = true;
-            }
+        {
+            ChangeDoorSprite changeDoorSprite = target.GetComponent<ChangeDoorSprite>();
+            changeDoorSprite.onOpen = true;
+        }
     }
 
     // 박스 변형(회전, 이동)
