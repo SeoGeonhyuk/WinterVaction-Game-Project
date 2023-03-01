@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerRayCast : MonoBehaviour
 {
-    public int Distance;        //인식 범위
-    public GameObject target;   //레이캐스트로 인식한 게임오브젝트'
+    public Sprite[] Sprites;    // 도움말 스프라이트 가져오기
+    public int Distance;        // 인식 범위
+    public GameObject target;   // 레이캐스트로 인식한 게임오브젝트
+    public GameObject guideSign;
     private float time;
     private float keyDownTime;
     private bool canTransferBox = false;
@@ -14,34 +16,34 @@ public class PlayerRayCast : MonoBehaviour
     private float dirValue;
     private Player playerComponent;
     private SpriteRenderer guideSignSpriteRenderer;
-    private GameObject guideSign;
 
     Vector3 dirVec;
 
     void Start()
     {
+        //guideSign = transform.GetChild(0).gameObject;
+        guideSignSpriteRenderer = guideSign.GetComponent<SpriteRenderer>();
+
         playerComponent = GetComponent<Player>();
-        guideSign = transform.GetChild(0).gameObject;
     }
 
     void Update()
     {
-        // 'guideSign'의 'SpriteRenderer' 최신화시키기
-        guideSignSpriteRenderer = guideSign.GetComponent<SpriteRenderer>();
-
         // 플레이어 방향 체크 (레이케스트 용)
         if (onPushMode == false)
         {
             dirValue = Input.GetAxisRaw("Horizontal");
-            if (dirValue == -1)
+            if (dirValue < 0)
             {
                 dirVec = new Vector3(Vector3.left.x, Vector3.left.y);
-                guideSignSpriteRenderer.flipX = true;
+                //guideSignSpriteRenderer.flipX = true;
+                //guideSignSpriteRenderer.transform.localScale = new Vector2(-0.05f, 0.05f);
             }
-            else if (dirValue == 1)
+            else if (dirValue > 0)
             {
                 dirVec = new Vector3(Vector3.right.x, Vector3.right.y);
-                guideSignSpriteRenderer.flipX = false;
+                //guideSignSpriteRenderer.flipX = false;
+                //guideSignSpriteRenderer.transform.localScale = new Vector2(0.05f, 0.05f);
             }
         }
 
@@ -57,8 +59,9 @@ public class PlayerRayCast : MonoBehaviour
             if (target.tag == "Door" && onPushMode == false)
             {
                 // 'guideSign' 보이게 하기
-                guideSign = transform.GetChild(0).gameObject;
-                guideSignSpriteRenderer.enabled = true;
+                guideSignSpriteRenderer.sprite = Sprites[1];
+                //guideSign = transform.GetChild(0).gameObject;
+                //guideSignSpriteRenderer.enabled = true;
 
                 // 문 열기 함수
                 OpenDoor();
@@ -67,8 +70,9 @@ public class PlayerRayCast : MonoBehaviour
             if (target.tag == "Box")
             {
                 // 'guideSign' 보이게 하기
-                guideSign = transform.GetChild(0).gameObject;
-                guideSignSpriteRenderer.enabled = true;
+                guideSignSpriteRenderer.sprite = Sprites[1];
+                //guideSign = transform.GetChild(0).gameObject;
+                //guideSignSpriteRenderer.enabled = true;
 
                 // 박스 변형 함수
                 TransferBox();
@@ -77,7 +81,8 @@ public class PlayerRayCast : MonoBehaviour
         else
         {
             // 'guideSign' 가리기
-            guideSignSpriteRenderer.enabled = false;
+            guideSignSpriteRenderer.sprite = Sprites[0];
+            //guideSignSpriteRenderer.enabled = false;
         }
     }
 
