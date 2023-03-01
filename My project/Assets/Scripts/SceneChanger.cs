@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,59 +9,59 @@ public class SceneChanger : MonoBehaviour
     public float ChangeTime;
     public string SceneName;
 
-    public GameObject SplashObj;               //ÆÇ³Ú¿ÀºêÁ§Æ®
-    public Image image;                            //ÆÇ³Ú ÀÌ¹ÌÁö
-    private bool checkbool = false;     //Åõ¸íµµ Á¶Àý ³í¸®Çü º¯¼ö
+    public GameObject SplashObj;               //ï¿½Ç³Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public Image image;                            //ï¿½Ç³ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    private bool checkbool = false;     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
 
     void Awake()
     {
-       // SplashObj = this.gameObject;                         //½ºÅ©¸³Æ® ÂüÁ¶µÈ ¿ÀºêÁ§Æ®
+        // SplashObj = this.gameObject;                         //ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        //image = SplashObj.GetComponent<Image>();    //ÆÇ³Ú¿ÀºêÁ§Æ®¿¡ ÀÌ¹ÌÁö ÂüÁ¶
+        //image = SplashObj.GetComponent<Image>();    //ï¿½Ç³Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
 
     void Update()
     {
         ChangeTime -= Time.deltaTime;
-        if(ChangeTime <= 0)
+        if (ChangeTime <= 0)
         {
-                  
-            StartCoroutine("MainSplash");                        //ÄÚ·çÆ¾    //ÆÇ³Ú Åõ¸íµµ Á¶Àý
 
-            if (checkbool)                                            //¸¸¾à checkbool ÀÌ ÂüÀÌ¸é
+            //StartCoroutine("MainSplash");                        //ï¿½Ú·ï¿½Æ¾    //ï¿½Ç³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            SceneManager.LoadScene(SceneName);
+            if (checkbool)                                            //ï¿½ï¿½ï¿½ï¿½ checkbool ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
             {
-                Destroy(this.gameObject);                        //ÆÇ³Ú ÆÄ±«, »èÁ¦
+                Destroy(this.gameObject);                        //ï¿½Ç³ï¿½ ï¿½Ä±ï¿½, ï¿½ï¿½ï¿½ï¿½
             }
         }
 
 
-        }
+    }
 
 
 
     IEnumerator MainSplash()
 
     {
-        Color color = image.color;                            //color ¿¡ ÆÇ³Ú ÀÌ¹ÌÁö ÂüÁ¶
+        Color color = image.color;                            //color ï¿½ï¿½ ï¿½Ç³ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        for (int i = 100; i >= 0; i--)                            //for¹® 100¹ø ¹Ýº¹ 0º¸´Ù ÀÛÀ» ¶§ ±îÁö
+        for (int i = 100; i >= 0; i--)                            //forï¿½ï¿½ 100ï¿½ï¿½ ï¿½Ýºï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         {
-            color.a -= Time.deltaTime * 0.01f;               //ÀÌ¹ÌÁö ¾ËÆÄ °ªÀ» Å¸ÀÓ µ¨Å¸ °ª * 0.01
-            image.color = color;                                //ÆÇ³Ú ÀÌ¹ÌÁö ÄÃ·¯¿¡ ¹Ù²ï ¾ËÆÄ°ª ÂüÁ¶
+            color.a -= Time.deltaTime * 0.01f;               //ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ * 0.01
+            image.color = color;                                //ï¿½Ç³ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ä°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            if (image.color.a <= 0)                        //¸¸¾à ÆÇ³Ú ÀÌ¹ÌÁö ¾ËÆÄ °ªÀÌ 0º¸´Ù ÀÛÀ¸¸é
+            if (image.color.a <= 0)                        //ï¿½ï¿½ï¿½ï¿½ ï¿½Ç³ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
                 SceneManager.LoadScene(SceneName);
-                checkbool = true;                              //checkbool Âü 
+                checkbool = true;                              //checkbool ï¿½ï¿½ 
             }
         }
 
-        yield return null;                                        //ÄÚ·çÆ¾ Á¾·á
-     
+        yield return null;                                        //ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
+
     }
 
 }
