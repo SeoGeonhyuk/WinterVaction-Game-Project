@@ -10,14 +10,17 @@ public class MoveBox : MonoBehaviour
     public bool onMove = false;
     public bool adjustment = true;
     public float dir;
+    //private string freezePosition = "X";  // 가로가 길 경우 = X, 세로가 길 경우 = Y (주의 : 현재 가로로 긴 물체만 정상 작동합니다.)
+    private bool isFixed = true;
     private float correctionValue = 0f;
     private float distance;
     GameObject player;
-    Rigidbody2D rigidBody;
+    Rigidbody2D rigidbody;
+    Vector3 oldPlayerPos;
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
 
         // 오브젝트의 'y'크기에 맞추어 회전 시 위치 조정값 배정
         if (transform.localScale.x > transform.localScale.y)
@@ -32,16 +35,26 @@ public class MoveBox : MonoBehaviour
         // 플레이어 찾기
         player = GameObject.Find("Player");
 
-        distance = transform.localScale.x / 2 + 0.5f;
+        distance = transform.localScale.x / 2 + 0.27f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rigidBody.velocity = Vector3.zero;
-
         if (onSpin == true)
         {
+            // 포지션 값 고정 해제
+            /*if (freezePosition == "X")
+            {
+                rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            }
+            else if (freezePosition == "Y")
+            {
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            }*/
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+
+
             // 회전
             Vector3 vec = new Vector3(0,0,90);
             transform.Rotate(vec);
@@ -49,54 +62,83 @@ public class MoveBox : MonoBehaviour
             // 가로로 긴 오브젝트일 시 위치 조정
             if (spun == false && transform.localScale.x > transform.localScale.y)
             {
-                distance = transform.localScale.y / 2 + 0.5f;
+                distance = transform.localScale.y / 2 + 0.27f;
                 transform.position += Vector3.up * correctionValue;
                 spun = true;
+                //freezePosition = "Y";
             }
             else if (spun == true && transform.localScale.x > transform.localScale.y)
             {
-                distance = transform.localScale.x / 2 + 0.5f;
+                distance = transform.localScale.x / 2 + 0.27f;
                 transform.position -= Vector3.up * correctionValue;
                 spun = false;
+                //freezePosition = "X";
             }
 
             // 세로로 긴 오브젝트일 시 위치 조정
             if (spun == false && transform.localScale.x < transform.localScale.y)
             {
-                distance = transform.localScale.y / 2 + 0.5f;
+                distance = transform.localScale.y / 2 + 0.27f;
                 transform.position -= Vector3.up * correctionValue;
                 spun = true;
+                //freezePosition = "X";
             }
             else if (spun == true && transform.localScale.x < transform.localScale.y)
             {
-                distance = transform.localScale.x / 2 + 0.5f;
+                distance = transform.localScale.x / 2 + 0.27f;
                 transform.position += Vector3.up * correctionValue;
                 spun = false;
+                //freezePosition = "Y";
             }
+            
+            // 포지션 값 고정
             onSpin = false;
+            Invoke("OffFreezePosition",0.5f);
         }
         if (onMove == true)
         {
-            // 박스 이동
+            // 포지션 값 고정 해제
+            /*if (freezePosition == "X")
+            {
+                rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            }
+            else if (freezePosition == "Y")
+            {
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            }*/
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            isFixed = false;
+
+            // 박스 이동 (당기기)
             // 바라보는 방향 확인
             dir = transform.position.x - player.transform.position.x;
+            Vector3 playerPos = player.transform.position;
+
             if (dir > 0)
             {
                 if (adjustment == true)
                 {
                     // 플레이어 위치 조정
-                    Vector3 playerPos = player.transform.position;
+                    //Vector3 playerPos = player.transform.position;
                     playerPos.x = transform.position.x - distance;
                     player.transform.position = playerPos;
                     adjustment = false;
+                    oldPlayerPos = playerPos;
                 }
                 else
                 {
                     // 박스 이동
-                    Vector3 pos = transform.position;
-                    pos.x = player.transform.position.x + distance;
-                    transform.position = pos;
-
+                    if (playerPos.x < oldPlayerPos.x)
+                    {
+                        Vector3 pos = transform.position;
+                        pos.x = playerPos.x + distance;
+                        transform.position = pos;
+                        oldPlayerPos.x = playerPos.x;
+                    }
+                    else if (playerPos.x > oldPlayerPos.x)
+                    {
+                        oldPlayerPos.x = playerPos.x;
+                    }
                 }
             }
             else if (dir < 0)
@@ -104,21 +146,42 @@ public class MoveBox : MonoBehaviour
                 if (adjustment == true)
                 {
                     // 플레이어 위치 조정
-                    Vector3 playerPos = player.transform.position;
+                    playerPos = player.transform.position;
                     playerPos.x = transform.position.x + distance;
                     player.transform.position = playerPos;
                     adjustment = false;
+                    oldPlayerPos = playerPos;
                 }
                 else
                 {
-                    // 박스 이동
-                    Vector3 pos = transform.position;
-                    pos.x = player.transform.position.x - distance;
-                    transform.position = pos;
+                    if (playerPos.x > oldPlayerPos.x)
+                    {
+                        // 박스 이동
+                        Vector3 pos = transform.position;
+                        pos.x = playerPos.x - distance;
+                        transform.position = pos;
+                        oldPlayerPos.x = playerPos.x;
+                    }
+                    else if (playerPos.x < oldPlayerPos.x)
+                    {
+                        oldPlayerPos.x = playerPos.x;
+                    }
                 }
             }
-
-            // 박스를 옮기던 중 타 오브젝트와 충돌이 안되는 점 수정 필요..
         }
+        else
+        {
+            if (isFixed == false)
+            {
+                // 포지션 값 고정
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+                isFixed = true;
+            }
+        }
+    }
+
+    void OffFreezePosition()
+    {
+        rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }
