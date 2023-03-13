@@ -5,10 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
+    public static bool beCaughtByPolice = false;
+    public int lifeGageMax = 100;
+    public int lifeGage = 50;
+    public int lifeGagePlus = 2;
     public float maxSpeed;//이동속도 값 설정
     public float jumpPower;//점프 값 설정
     public bool canJump = true;
     public float ladderSpeed;//사다리 속도 값 설정
+    public static int polices = 0;
     private bool isJumping = false; //점프 한 번만 되게 설정
     private bool isLaddering = false;
     private bool isLadderingcanMove = true;
@@ -35,7 +40,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate() // 플레이어 움직임은 Update 문이 아니라 FixedUpdate 문에 써야대용 아니면 캐릭터가 움직일 때 덜덜 떨리는 현상이 생기더라고요
     {
-        if (GameManager.canPlayerMove && isLadderingcanMove)
+        if (GameManager.canPlayerMove && isLadderingcanMove && !beCaughtByPolice)
         {
             rigid.gravityScale = 3;
             Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, false);
@@ -80,6 +85,9 @@ public class Player : MonoBehaviour
                 isJumping = true;
             }
         }
+        else if(beCaughtByPolice){
+            
+        }
 
         if (isLaddering)
         {
@@ -118,11 +126,20 @@ public class Player : MonoBehaviour
             isLadderingcanMove = true;
             Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, false);
         }
+        else if (col.gameObject.CompareTag("Police")){
+            ++polices;
+            beCaughtByPolice = true;
+        }
+        else if (col.gameObject.CompareTag("Police") && PoliceMove.savePlayerLife){
+            if(Input.GetKeyDown(KeyCode.E)){
+                Destroy(col.gameObject);
+            }
+        }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-
+        
     }
 
     void OnTriggerEnter2D(Collider2D col)

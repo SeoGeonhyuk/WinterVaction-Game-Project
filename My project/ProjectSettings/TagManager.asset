@@ -9,6 +9,8 @@ TagManager:
   - Box
   - Ladder
   - LadderTop
+  - Police
+  - PoliceGaurd
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Object
   - Ground
   - Trigger
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -66,4 +68,7 @@ TagManager:
     locked: 0
   - name: Blind
     uniqueID: 1270378361
+    locked: 0
+  - name: Enemy
+    uniqueID: 1322710535
     locked: 0
