@@ -122,16 +122,16 @@ public class Player : MonoBehaviour
         else if (col.gameObject.CompareTag("Ground") && isLaddering)
         {
             rigid.gravityScale = 3;
+            isJumping = false;
             isLaddering = false;
             isLadderingcanMove = true;
             Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, false);
         }
-        else if (col.gameObject.CompareTag("Police")){
-            ++polices;
+        else if (col.gameObject.CompareTag("Police") && !PoliceMove.savePlayerLife){
             beCaughtByPolice = true;
         }
         else if (col.gameObject.CompareTag("Police") && PoliceMove.savePlayerLife){
-            if(Input.GetKeyDown(KeyCode.E)){
+            if(Input.GetKey(KeyCode.E)){
                 Destroy(col.gameObject);
             }
         }
@@ -144,20 +144,23 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if ((col.gameObject.CompareTag("Ladder") || col.gameObject.CompareTag("LadderTop")) && Input.GetAxisRaw("Vertical") > 0)
+        if(col.gameObject.CompareTag("Ladder") && Input.GetAxisRaw("Vertical") > 0)
         {
+            rigid.velocity = new Vector2(col.gameObject.transform.position.x, 0);
             isJumping = false;
             rigid.gravityScale = 0;
-            rigid.velocity = new Vector2(0, 0);
             Debug.Log("사다리");
             animator.SetBool("IsWalk", false);
             isLaddering = true;
             isLadderingcanMove = false;
         }
+        if(col.gameObject.CompareTag("LadderTop") && Input.GetAxisRaw("Vertical") > 0){
+            isJumping = true;
+        }
         if (col.gameObject.CompareTag("LadderTop") && Input.GetAxisRaw("Vertical") < 0)
         {
+            rigid.velocity = new Vector2(col.gameObject.transform.position.x, 0);
             rigid.gravityScale = 0;
-            rigid.velocity = new Vector2(0, 0);
             Debug.Log("사다리");
             animator.SetBool("IsWalk", false);
             isLaddering = true;

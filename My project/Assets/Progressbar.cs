@@ -8,6 +8,9 @@ public class Progressbar : MonoBehaviour
     public Slider progressbar;
     public float maxValue = 100;
     // Start is called before the first frame update
+    void Awake()
+    {
+    }
     void Start()
     {
         progressbar.maxValue = maxValue;
@@ -15,17 +18,17 @@ public class Progressbar : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(Player.beCaughtByPolice)
-            progressbar.value -= 3 * Player.polices;
-        if(progressbar.value < 100 && Input.GetKeyDown(KeyCode.E)){
-            progressbar.value += 5;
+        if(progressbar.value < 100 && Input.GetKey(KeyCode.E) && Player.beCaughtByPolice){
+            progressbar.value += 1f;
         }
-        else if(progressbar.value >= 100){
+        if(progressbar.value >= 100f && Player.beCaughtByPolice){
             Player.beCaughtByPolice = false;
-            Player.polices = 0;
-            PoliceMove.savePlayerLife = true;
+            GameManager.polices -= 1;
+            progressbar.value = 50;
         }
+        else if(Player.beCaughtByPolice)
+            progressbar.value -= 0.2f * GameManager.polices;
     }
 }
